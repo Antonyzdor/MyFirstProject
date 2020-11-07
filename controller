@@ -1,0 +1,40 @@
+package by.belhard.j24.MyFirstProject.controller;
+
+import by.belhard.j24.MyFirstProject.dto.ATMGumDto;
+import by.belhard.j24.MyFirstProject.service.ATMGumService;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+
+public class MenuController {
+
+    private final ATMGumService ATMGumService = new ATMGumService();
+
+    public void start() {
+
+        String input = "";
+
+        while (!"e".equals(input)) {
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+
+                System.out.println("Выберите жевачку(1,2,3):");
+                input = reader.readLine();
+                ATMGumDto card = ATMGumService.getById(input);
+                if (card != null) {
+                    System.out.println("Введите номер жевачки:");
+                    input = reader.readLine();
+                } else {
+                    System.err.println("Нет такой жевачки");
+                }
+            } catch (IOException | SQLException | by.belhard.j24.MyFirstProject.repository.ItemNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+}
